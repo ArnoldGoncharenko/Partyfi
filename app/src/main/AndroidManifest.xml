@@ -63,6 +63,14 @@
             android:name=".friend_profile"
             android:label="@string/title_activity_friend_profile" >
         </activity>
+        <activity
+            android:name=".friends_list_invite"
+            android:label="@string/title_activity_friends_list_invite" >
+        </activity>
+        <activity
+            android:name=".Find_friend"
+            android:label="@string/title_activity_find_friend" >
+        </activity>
     </application>
 
     <uses-feature
