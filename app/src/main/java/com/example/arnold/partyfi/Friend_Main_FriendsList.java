@@ -15,7 +15,7 @@ public class Friend_Main_FriendsList extends Activity {
 
         //Query server and display a list of people you are friends with
         //and add an option to click on them
-        //
+        ////
     }
 
 
