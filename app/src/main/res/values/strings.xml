@@ -9,5 +9,10 @@
     <string name="title_activity_friend_profile">friend_profile</string>
     <string name="title_activity_friends_list_invite">friends_list_invite</string>
     <string name="title_activity_find_friend">Find_friend</string>
+    <string name="title_activity_delete_group">DeleteGroup</string>
+    <string name="title_activity_groups_your_groups">groups_yourGroups</string>
+    <string name="title_activity_groups_find_group">groups_findGroup</string>
+    <string name="title_activity_groups_create">groups_create</string>
+    <string name="title_activity_groups_profile">groups_profile</string>
 
 </resources>

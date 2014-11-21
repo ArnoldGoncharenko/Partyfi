@@ -71,6 +71,26 @@
             android:name=".Find_friend"
             android:label="@string/title_activity_find_friend" >
         </activity>
+        <activity
+            android:name=".DeleteGroup"
+            android:label="@string/title_activity_delete_group" >
+        </activity>
+        <activity
+            android:name=".groups_yourGroups"
+            android:label="@string/title_activity_groups_your_groups" >
+        </activity>
+        <activity
+            android:name=".groups_findGroup"
+            android:label="@string/title_activity_groups_find_group" >
+        </activity>
+        <activity
+            android:name=".groups_create"
+            android:label="@string/title_activity_groups_create" >
+        </activity>
+        <activity
+            android:name=".groups_profile"
+            android:label="@string/title_activity_groups_profile" >
+        </activity>
     </application>
 
     <uses-feature
