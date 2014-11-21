@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.arnold.partyfi" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -9,8 +20,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.arnold.partyfi.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,18 +30,34 @@
         </activity>
         <activity
             android:name="com.example.arnold.partyfi.Friends_Main"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light" >
         </activity>
         <activity
             android:name="com.example.arnold.partyfi.Groups_Main"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light" >
         </activity>
         <activity
             android:name="com.example.arnold.partyfi.Parties_Main"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name="com.example.arnold.partyfi.Friend_Main_Search1"
+            android:label="@string/title_activity_friend__main__search1" >
+        </activity>
+        <activity
+            android:name="com.example.arnold.partyfi.Friend_Main_Search2"
+            android:label="@string/title_activity_friend__main__search2" >
+        </activity>
+        <activity
+            android:name="com.example.arnold.partyfi.Friend_Profile"
+            android:label="@string/title_activity_friend__profile" >
+        </activity>
+        <activity
+            android:name="com.example.arnold.partyfi.Friend_Main_FriendsList"
+            android:label="@string/title_activity_friend__main__friends_list" >
         </activity>
     </application>
 

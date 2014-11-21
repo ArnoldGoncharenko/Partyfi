@@ -4,5 +4,10 @@
     <string name="app_name">Partyfi</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_friend__main__search1">Friend_Main_Search1</string>
+    <string name="title_activity_friend__main__search2">Friend_Main_Search2</string>
+    <string name="title_activity_friend__profile">Friend_Profile</string>
+    <string name="title_activity_friend__main__friends_list">Friend_Main_FriendsList</string>
 
 </resources>
