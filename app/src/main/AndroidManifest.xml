@@ -59,6 +59,10 @@
             android:name=".friends_list"
             android:label="@string/title_activity_friends_list" >
         </activity>
+        <activity
+            android:name=".friend_profile"
+            android:label="@string/title_activity_friend_profile" >
+        </activity>
     </application>
 
     <uses-feature

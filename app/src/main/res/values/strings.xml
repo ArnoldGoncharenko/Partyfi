@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_friends_list">friends_list</string>
+    <string name="title_activity_friend_profile">friend_profile</string>
 
 </resources>
