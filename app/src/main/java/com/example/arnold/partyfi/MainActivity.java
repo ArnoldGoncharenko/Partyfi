@@ -66,14 +66,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                            // .setTabListener(this));
         //}
 
-        actionBar.addTab(actionBar.newTab().setText("Groups!").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Friends!").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Party !").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Groups").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Friends").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Parties").setTabListener(this));
     }
 
     /** Called when the user clicks the Send button */
     public void getMap(View view) {
         Intent intent = new Intent(this, MapActivity.class);
+//        EditText editText = (EditText) findViewById(R.id.edit_message);
+//        String message = editText.getText().toString();
+//        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+    public void createParty(View view) {
+        Intent intent = new Intent(this, CreatePartyActivity.class);
+//        EditText editText = (EditText) findViewById(R.id.edit_message);
+//        String message = editText.getText().toString();
+//        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+    public void deleteParty(View view) {
+        Intent intent = new Intent(this, DeletePartyActivity.class);
 //        EditText editText = (EditText) findViewById(R.id.edit_message);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);

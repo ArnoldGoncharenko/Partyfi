@@ -2,5 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.arnold.partyfi.MapActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+        android:orderInCategory="100"  />
+    //android:showAsAction="never"
+    <item android:id="@+id/item2"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Satellite" />
+    <item android:id="@+id/item3"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Hybrid" />
+    <item android:id="@+id/item4"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Terrain" />
 </menu>

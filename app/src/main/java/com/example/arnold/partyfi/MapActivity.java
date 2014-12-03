@@ -1,33 +1,33 @@
 package com.example.arnold.partyfi;
 
-import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.gms.maps.*;  // GoogleMap, CameraUpdateFactory
+import com.google.android.gms.maps.model.*;  // Marker, MarkerOptions
 
 public class MapActivity extends FragmentActivity {
-    static final LatLng TutorialsPoint = new LatLng(21 , 57);
+    static final LatLng Toronto = new LatLng(43.6532, -79.38318429999998);
     private GoogleMap googleMap;
-    Location mCurrentLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +37,17 @@ public class MapActivity extends FragmentActivity {
             if (googleMap == null) {
                 googleMap = ((MapFragment) getFragmentManager().
                         findFragmentById(R.id.map)).getMap();
-
             }
 
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             googleMap.setMyLocationEnabled(true);
-            UiSettings mapSettings;
+
+             UiSettings mapSettings;
             mapSettings = googleMap.getUiSettings();
             mapSettings.setCompassEnabled(true);
 
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(Toronto, 9);
+            googleMap.animateCamera(cameraUpdate);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,12 +67,26 @@ public class MapActivity extends FragmentActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id)
+        {
+            case R.id.item2 :
+                googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                return true;
+            //noinspection SimplifiableIfStatement
+            case R.id.action_settings :
+                return true;
+            case R.id.item3 :
+                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                return true;
+            case R.id.item4 :
+                googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+
+
     }
 
     /**

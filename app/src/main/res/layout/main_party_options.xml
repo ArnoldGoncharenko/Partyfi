@@ -10,7 +10,7 @@
         android:text="Main menu for parties"
         android:id="@+id/textView"
         android:layout_gravity="center"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="100dp"
         android:textSize="50sp"/>
     <Button
         android:id="@+id/findParty"
@@ -18,5 +18,16 @@
         android:layout_height="wrap_content"
         android:text="Find Party"
         android:onClick="getMap"/>
-
+    <Button
+        android:id="@+id/createParty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Party"
+        android:onClick="createParty"/>
+    <Button
+        android:id="@+id/deleteParty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove Party"
+        android:onClick="deleteParty"/>
 </LinearLayout>
