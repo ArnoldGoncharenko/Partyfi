@@ -2,6 +2,7 @@ package com.example.arnold.partyfi;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -16,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener
 {
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
@@ -27,6 +27,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //----------------------------------------------start DB----------------------------------------------------------\\
+
+        // use the (user-defined) helper class to access an SQLite database
+        // - the database is created for access
+        DBAdapter db = new DBAdapter(this);
+
+        //--- 1. add two contacts to the database ---
+        db.open();
+
+        long id;
+        id = db.insertContact( "Arnold", "19", "True" );
+        id = db.insertContact( "James", "28", "True" );
+
+        db.close();
+
+        //----------------------------------------------End DB----------------------------------------------------------\\
 
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
@@ -72,6 +89,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         actionBar.addTab(actionBar.newTab().setText("Party !").setTabListener(this));
     }
 
+    /** Called when the user clicks the Send button */
+    public void getMap(View view) {
+        Intent intent = new Intent(this, MapActivity.class);
+//        EditText editText = (EditText) findViewById(R.id.edit_message);
+//        String message = editText.getText().toString();
+//        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -215,4 +240,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    public void FriendsList(View view)
+    {
+        Intent intent = new Intent(this, Friend_Main_FriendsList.class);
+        startActivity(intent);
+    }
 }
