@@ -84,9 +84,6 @@ public class MapActivity extends FragmentActivity {
             default :
                 return super.onOptionsItemSelected(item);
         }
-
-
-
     }
 
     /**

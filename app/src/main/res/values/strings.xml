@@ -14,5 +14,10 @@
     <string name="time_label">Time</string>
     <string name="str_btn_find">Find</string>
     <string name="hnt_et_location">Enter location</string>
+    <string name="title_activity_friend__main__search1">Friend_Main_Search1</string>
+    <string name="title_activity_friend__main__search2">Friend_Main_Search2</string>
+    <string name="title_activity_friend__profile">Friend_Profile</string>
+    <string name="title_activity_friend__main__friends_list">Friend_Main_FriendsList</string>
+    <string name="title_activity_dbadapter">DBAdapter</string>
 
 </resources>

@@ -17,16 +17,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener
 {
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
     ViewPager mViewPager;
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //----------------------------------------------start DB----------------------------------------------------------\\
+
+        // use the (user-defined) helper class to access an SQLite database
+        // - the database is created for access
+        DBAdapter db = new DBAdapter(this);
+
+        //--- 1. add two contacts to the database ---
+        db.open();
+
+        long id;
+        id = db.insertContact( "Arnold", "19", "True" );
+        id = db.insertContact( "James", "28", "True" );
+
+        db.close();
+
+        //----------------------------------------------End DB----------------------------------------------------------\\
 
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
@@ -48,7 +65,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(int position)
+            {
                 // When swiping between different app sections, select the corresponding tab.
                 // We can also use ActionBar.Tab#select() to do this if we have a reference to the
                 // Tab.
@@ -236,4 +254,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    public void FriendsList(View view)
+    {
+        Intent intent = new Intent(this, Friend_Main_FriendsList.class);
+        startActivity(intent);
+    }
 }
