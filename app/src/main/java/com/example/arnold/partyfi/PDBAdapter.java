@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Verbal on 03/12/2014.
+ * Created by James Laverty
  */
 public class PDBAdapter
 {
@@ -20,7 +20,7 @@ public class PDBAdapter
     private static final String LOG = "DatabaseHelp";
 
     // Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // Database Name
     private static final String DATABASE_NAME = "partyManager";
@@ -35,6 +35,9 @@ public class PDBAdapter
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESC = "description";
     private static final String KEY_ADDR = "address";
+    private static final String KEY_TIME = "time";
+    private static final String KEY_DATE = "date";
+
 
     // ACCOUNT Table - column names
     private static final String KEY_UNAME = "uname";
@@ -49,12 +52,13 @@ public class PDBAdapter
     static final String CREATE_TABLE_PARTY = "CREATE TABLE "
             + TABLE_PARTY + "( _id integer primary key autoincrement," + KEY_LAT
             + " DOUBLE," + KEY_LNG + " DOUBLE," + KEY_TITLE
-            + " TEXT," + KEY_DESC + " TEXT," + KEY_ADDR + " TEXT" + ");";
+            + " TEXT," + KEY_DESC + " TEXT," + KEY_ADDR + " TEXT"
+            + KEY_DATE + " TEXT," + KEY_TIME + " TEXT);";
 
     // Account table create statement
     static final String CREATE_TABLE_ACCOUNT = "CREATE TABLE "
             + TABLE_ACCOUNT + "( _id INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_UNAME
-            + " TET," + KEY_PWORD + " TEXT" + ");";
+            + " TEXT," + KEY_PWORD + " TEXT" + ");";
 
     public PDBAdapter(Context ctx)
     {
@@ -74,7 +78,7 @@ public class PDBAdapter
         public void onCreate(SQLiteDatabase db)
         {
 
-                        // creating required tables
+            // creating required tables
             db.execSQL(CREATE_TABLE_PARTY);
             db.execSQL(CREATE_TABLE_ACCOUNT);
         }
@@ -115,8 +119,6 @@ public class PDBAdapter
     }
     public Party getParty(long party_id)
     {
-        //SQLiteDatabase db = this.getReadableDatabase();
-
         String selectQuery = "SELECT  * FROM " + TABLE_PARTY + " WHERE "
                 + KEY_ID + " = " + party_id;
 
@@ -136,35 +138,8 @@ public class PDBAdapter
         return p;
     }
 
-    /*
- * getting all parties
- * */
-    //public List<Party> getAllParties()
     public Cursor getAllParties()
     {
-//        List<Party> parties = new ArrayList<Party>();
-//        String selectQuery = "SELECT  * FROM " + TABLE_PARTY;
-//
-//        Log.e(LOG, selectQuery);
-//
-//        //SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor c = db.rawQuery(selectQuery, null);
-//
-//        // looping through all rows and adding to list
-//        if (c.moveToFirst()) {
-//            do {
-//                Party p = new Party();
-//                p.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-//                p.setDescription(c.getString(c.getColumnIndex(KEY_DESC)));
-//                p.setLat(c.getDouble(c.getColumnIndex(KEY_LAT)));
-//                p.setDescription(c.getString(c.getColumnIndex(KEY_DESC)));
-//
-//                // adding to party list
-//                parties.add(p);
-//            } while (c.moveToNext());
-//        }
-//
-//        return parties;
         return db.query(TABLE_PARTY,
                 new String[]{KEY_ID, KEY_LAT, KEY_LNG, KEY_DESC, KEY_TITLE},
                 null, null, null, null, null);
@@ -172,7 +147,6 @@ public class PDBAdapter
 
     public void deleteParty(long party_id)
     {
-        //SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_PARTY, KEY_ID + " = ?",
                 new String[]{String.valueOf(party_id)});
     }

@@ -103,6 +103,8 @@ public class MapActivity extends FragmentActivity {
                         .position(new LatLng(c.getDouble(1), c.getDouble(2)))
                         .title(c.getString(4))
                         .snippet(c.getString(3)));
+
+
             } while (c.moveToNext());
         }
         db.close();

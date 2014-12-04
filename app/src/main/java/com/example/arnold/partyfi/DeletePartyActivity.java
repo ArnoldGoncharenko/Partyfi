@@ -26,6 +26,8 @@ import java.util.List;
 
 public class DeletePartyActivity extends ListActivity {
 
+    private static String logtag = "DeletePartyActity";//for use as the tag when logging
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,8 +128,37 @@ public class DeletePartyActivity extends ListActivity {
         Toast.makeText(this,
                 "id: " + c.getString(0) + "\n" +
                         "Title: " + c.getString(4) + "\n" +
-                        //"Address:  " + c.getString(5) + "\n" +
-                        "Desc: " + c.getString(3),
+                        "Address:  " + c.getString(5) + "\n" +
+                        "Desc: " + c.getString(3) + "\n" +
+                        "Other 1: "+ c.getString(6) + "\n" +
+                        "Other 2 : " + c.getString(7),
                 Toast.LENGTH_LONG).show();
+    }
+    protected void onStart() {//activity is started and visible to the user
+        Log.d(logtag,"onStart() called");
+        super.onStart();
+    }
+    @Override
+    protected void onResume() {//activity was resumed and is visible again
+        Log.d(logtag,"onResume() called");
+        super.onResume();
+
+    }
+    @Override
+    protected void onPause() { //device goes to sleep or another activity appears
+        Log.d(logtag,"onPause() called");//another activity is currently running (or user has pressed Home)
+        super.onPause();
+
+    }
+    @Override
+    protected void onStop() { //the activity is not visible anymore
+        Log.d(logtag,"onStop() called");
+        super.onStop();
+
+    }
+    @Override
+    protected void onDestroy() {//android has killed this activity
+        Log.d(logtag,"onDestroy() called");
+        super.onDestroy();
     }
 }

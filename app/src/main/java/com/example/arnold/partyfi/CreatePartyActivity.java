@@ -1,8 +1,10 @@
 package com.example.arnold.partyfi;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Looper;
@@ -75,7 +77,7 @@ public class CreatePartyActivity extends FragmentActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         private Button button;
-        private String result;
+
         PDBAdapter db;
 
         public PlaceholderFragment() {
@@ -85,7 +87,7 @@ public class CreatePartyActivity extends FragmentActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_create_party, container, false);
+            final View rootView = inflater.inflate(R.layout.fragment_create_party, container, false);
             button = (Button) rootView.findViewById(R.id.btn_find);
 
 
@@ -94,8 +96,11 @@ public class CreatePartyActivity extends FragmentActivity {
                 @Override
                 public void onClick(final View view) {
 
-
-                    result = ((EditText) getActivity().findViewById(R.id.et_location)).getText().toString();
+                    final String date = ((EditText) getActivity().findViewById(R.id.datePick)).getText().toString();
+                    final String time = ((EditText) getActivity().findViewById(R.id.timePick)).getText().toString();
+                    final String result = ((EditText) getActivity().findViewById(R.id.et_location)).getText().toString();
+                    final String titleInput  = ((EditText) getActivity().findViewById(R.id.titleText)).getText().toString();
+                    final String descInput = ((EditText) getActivity().findViewById(R.id.descText)).getText().toString();
                     Thread thr = new Thread()
                     {
                       public void run()
@@ -123,11 +128,14 @@ public class CreatePartyActivity extends FragmentActivity {
                           db.open();
                           long id;
                           Party p = new Party();
-                          p.setDescription("Awesome");
-                          p.setTitle("House Party");
+                          p.setDescription(descInput);
+                          p.setTitle(titleInput);
                           p.setLat(lat);
                           p.setLng(lng);
                           p.setAddress(result);
+                          p.setDate(date);
+                          p.setTime(time);
+
                           id = db.createParty(p);
                           db.close();
 
@@ -138,21 +146,14 @@ public class CreatePartyActivity extends FragmentActivity {
                           Log.i("DataAccessActivity", "id = " + id);
                           displayCursor(c);
 
-                          //Looper.prepare();
-                          //Toast.makeText(getActivity(), geodata + "Has been added", Toast.LENGTH_LONG).show();
-                          //Looper.loop();
-
-
                           }catch (IOException e)
                           {
                               Log.e("IOException", e.getMessage());
                           }
-
-
-
                       }
                     };
                     thr.start();
+
                 }
             }
             );
