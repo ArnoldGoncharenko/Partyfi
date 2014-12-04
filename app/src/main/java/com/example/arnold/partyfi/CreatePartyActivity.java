@@ -3,6 +3,7 @@ package com.example.arnold.partyfi;
 
 import android.app.Fragment;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.DialogFragment;
@@ -27,7 +28,6 @@ import java.util.Locale;
 
 
 public class CreatePartyActivity extends FragmentActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,8 @@ public class CreatePartyActivity extends FragmentActivity {
     public static class PlaceholderFragment extends Fragment {
         private Button button;
         private String result;
+        PDBAdapter db;
+
         public PlaceholderFragment() {
         }
 
@@ -85,6 +87,7 @@ public class CreatePartyActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_create_party, container, false);
             button = (Button) rootView.findViewById(R.id.btn_find);
+
 
             button.setOnClickListener(new View.OnClickListener() {
 
@@ -97,23 +100,49 @@ public class CreatePartyActivity extends FragmentActivity {
                     {
                       public void run()
                       {
-                          Geocoder geocoder = new Geocoder( view.getContext(), Locale.getDefault());
-                          if(!Geocoder.isPresent())
-                          {
-                              Toast.makeText(view.getContext(), "Geocoder Not Present!", Toast.LENGTH_LONG).show();
-                          }
-                          try
-                          {
-                              List<Address> list = geocoder.getFromLocationName(result, 1);
-                              Address address = list.get(0);
 
-                              double lat = address.getLatitude();
-                              double lng = address.getLongitude();
+                      db = new PDBAdapter(view.getContext());
+                      Geocoder geocoder = new Geocoder( view.getContext(), Locale.getDefault());
+                      if(!Geocoder.isPresent())
+                      {
+                          Toast.makeText(view.getContext(), "Geocoder Not Present!", Toast.LENGTH_LONG).show();
+                      }
+                      try
+                      {
 
-                              String geodata = String.valueOf(lat) + "," + String.valueOf(lng);
-                              Looper.prepare();
-                              Toast.makeText(getActivity(), geodata, Toast.LENGTH_LONG).show();
-                              Looper.loop();
+                          List<Address> list = geocoder.getFromLocationName(result, 1);
+                          Address address = list.get(0);
+
+                          double lat = address.getLatitude();
+                          double lng = address.getLongitude();
+
+                          String geodata = String.valueOf(lat) + "," + String.valueOf(lng);
+
+
+                          //Add Data to database
+                          db.open();
+                          long id;
+                          Party p = new Party();
+                          p.setDescription("Awesome");
+                          p.setTitle("House Party");
+                          p.setLat(lat);
+                          p.setLng(lng);
+                          p.setAddress(result);
+                          id = db.createParty(p);
+                          db.close();
+
+                          //Query Test
+                          db.open();
+
+                          Cursor c = db.getAllParties();
+                          Log.i("DataAccessActivity", "id = " + id);
+                          displayCursor(c);
+
+                          //Looper.prepare();
+                          //Toast.makeText(getActivity(), geodata + "Has been added", Toast.LENGTH_LONG).show();
+                          //Looper.loop();
+
+
                           }catch (IOException e)
                           {
                               Log.e("IOException", e.getMessage());
@@ -129,6 +158,26 @@ public class CreatePartyActivity extends FragmentActivity {
             );
 
             return rootView;
+        }
+        private void displayCursor( Cursor c ){
+
+            if (c.moveToFirst())
+            {
+                do {
+                    displayParty(c);
+                } while (c.moveToNext());
+            }
+        }
+        private void displayParty( Cursor c )
+        {
+            Looper.prepare();
+            Toast.makeText( getActivity(),
+                    "id: " + c.getString(0) + "\n" +
+                            "Lat: " + c.getString(1) + "\n" +
+                            "Long:  " + c.getString(2) + "\n" +
+                            "Desc: " + c.getString(3),
+                    Toast.LENGTH_LONG).show();
+            Looper.loop();
         }
 
     }

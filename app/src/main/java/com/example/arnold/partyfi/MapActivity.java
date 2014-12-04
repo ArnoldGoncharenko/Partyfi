@@ -2,6 +2,7 @@ package com.example.arnold.partyfi;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -28,12 +29,14 @@ public class MapActivity extends FragmentActivity {
     static final LatLng Toronto = new LatLng(43.6532, -79.38318429999998);
     private GoogleMap googleMap;
 
+    PDBAdapter db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         try {
+
             if (googleMap == null) {
                 googleMap = ((MapFragment) getFragmentManager().
                         findFragmentById(R.id.map)).getMap();
@@ -48,6 +51,7 @@ public class MapActivity extends FragmentActivity {
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(Toronto, 9);
             googleMap.animateCamera(cameraUpdate);
+            addPartyMarkers();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,6 +90,23 @@ public class MapActivity extends FragmentActivity {
         }
     }
 
+    public void addPartyMarkers()
+    {
+        PDBAdapter db = new PDBAdapter(this);
+
+        db.open();
+        Cursor c = db.getAllParties();
+        if (c.moveToFirst())
+        {
+            do {
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(c.getDouble(1), c.getDouble(2)))
+                        .title(c.getString(4))
+                        .snippet(c.getString(3)));
+            } while (c.moveToNext());
+        }
+        db.close();
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
