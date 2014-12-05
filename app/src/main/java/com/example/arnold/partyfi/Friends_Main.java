@@ -34,7 +34,7 @@ public class Friends_Main extends ActionBarActivity
         }
     }
 
-    public void findFriend(View view)
+    public void FriendsSearch(View view)
     {
         Intent intent = new Intent(this, Friend_Main_Search1.class);
         startActivity(intent);

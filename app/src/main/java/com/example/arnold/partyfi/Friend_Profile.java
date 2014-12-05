@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,14 +20,14 @@ public class Friend_Profile extends Activity {
         setContentView(R.layout.activity_friend__profile);
 
         Intent intent = getIntent();
-        final String position = intent.getStringExtra("Slot");
+        final String position = intent.getStringExtra("Name");
 
-        int finalPosition = Integer.parseInt(position);
+        //int finalPosition = Integer.parseInt(position);
 
         db = new DBAdapter(this);
         db.open();
 
-        Cursor c = db.getContact(finalPosition+1);
+        Cursor c = db.getAllContacts();
 
         String name="";
         String age="";
@@ -34,9 +35,11 @@ public class Friend_Profile extends Activity {
 
         for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
         {
-            name = c.getString(0);
-            age = c.getString(1);
-            friends = c.getString(2);
+            if (c.getString(1).equals(position)) {
+                name = c.getString(1);
+                age = c.getString(2);
+                friends = c.getString(3);
+            }
         }
 
         TextView t = (TextView)findViewById(R.id.Name);

@@ -2,5 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.arnold.partyfi.Friend_Main_FriendsList">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+        android:orderInCategory="100" />
+    <item android:id="@+id/login" android:title="Login"
+        android:orderInCategory="100"/>
 </menu>

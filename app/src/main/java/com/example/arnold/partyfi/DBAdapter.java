@@ -30,6 +30,10 @@ public class DBAdapter {
             "create table contacts ( _id integer primary key autoincrement, " +
                     "name text not null, age text not null, friends text not null );";
 
+    static final String ACCOUNTS =
+            "create table accounts ( _id integer primary key autoincrement, " +
+                    "username text not null, password text not null);";
+
     final Context context;   // context for database access
 
     DatabaseHelper dBHelper; // a private static nested class
@@ -128,6 +132,17 @@ public class DBAdapter {
         return mCursor;
     }
 
+    public Cursor getContactByName(String name) throws SQLException
+    {
+        //Cursor mCursor = db.query( true,DATABASE_TABLE,new String[] {KEY_ROWID, KEY_NAME, KEY_AGE, KEY_FRIENDS},KEY_ROWID + "=" + rowId,null, null, null, null, null, null );
+
+        Cursor mCursor = db.rawQuery("SELECT name, age, friends FROM contacts WHERE name=" + name,null);
+
+        if ( mCursor != null ) { mCursor.moveToFirst(); } // move the cursor to the first row
+
+        return mCursor;
+    }
+
     //--- 7. updates a contact in the database ---
     public boolean updateContact(long rowId, String name, String age, String friends)
     {
@@ -137,5 +152,14 @@ public class DBAdapter {
         args.put(KEY_FRIENDS, friends);
 
         return db.update( DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    public Cursor getNumOfData() throws SQLException
+    {
+        Cursor NumData = db.rawQuery("SELECT COUNT(*) FROM contacts", null);
+
+        if ( NumData != null ) { NumData.moveToFirst(); } // move the cursor to the first row
+
+        return NumData;
     }
 } // end DBAdapter
