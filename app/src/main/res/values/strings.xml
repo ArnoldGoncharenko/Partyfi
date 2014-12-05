@@ -21,5 +21,6 @@
     <string name="title_activity_dbadapter">DBAdapter</string>
     <string name="title_label">Enter title of event</string>
     <string name="description_label">Enter event description</string>
+    <string name="title_activity_login">Login</string>
 
 </resources>

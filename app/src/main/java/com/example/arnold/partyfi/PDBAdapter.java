@@ -151,7 +151,57 @@ public class PDBAdapter
                 new String[]{String.valueOf(party_id)});
     }
 
+
+    //-----------------------------------Create account----------------------------------------//
+
+    public long createAccount(String username, String password)
+    {
+        ContentValues values = new ContentValues();
+        values.put(KEY_UNAME, username);
+        values.put(KEY_PWORD, password);
+
+        return db.insert( TABLE_ACCOUNT, null, values );
+    }
+
+    public Cursor getAccount(String username) throws SQLException
+    {
+        //Cursor mCursor = db.query( true,DATABASE_TABLE,new String[] {KEY_ROWID, KEY_NAME, KEY_AGE, KEY_FRIENDS},KEY_ROWID + "=" + rowId,null, null, null, null, null, null );
+
+        Cursor mCursor = db.rawQuery("SELECT COUNT(*) FROM account", null);
+
+        try
+        {
+            mCursor = db.rawQuery("SELECT " + KEY_UNAME + " , " + KEY_PWORD + " FROM account WHERE " + KEY_PWORD + " = " + username,null);
+            if ( mCursor != null ) { mCursor.moveToFirst(); } // move the cursor to the first row
+            return mCursor;
+        }
+        catch (SQLException e)
+        {
+            mCursor = db.rawQuery("SELECT COUNT(*) FROM account", null);
+        }
+
+        finally
+        {
+            if ( mCursor != null ) { mCursor.moveToFirst(); } // move the cursor to the first row
+            return mCursor;
+        }
+    }
+
+    public Cursor getAllAccounts() throws SQLException
+    {
+        return db.query( TABLE_ACCOUNT , new String[] { KEY_UNAME, KEY_PWORD },null, null, null, null, null, null);
+    }
+
     // closing database
+
+    public Cursor getNumOfData() throws SQLException
+    {
+        Cursor NumData = db.rawQuery("SELECT COUNT(*) FROM account", null);
+
+        if ( NumData != null ) { NumData.moveToFirst(); } // move the cursor to the first row
+
+        return NumData;
+    }
 
 
 }

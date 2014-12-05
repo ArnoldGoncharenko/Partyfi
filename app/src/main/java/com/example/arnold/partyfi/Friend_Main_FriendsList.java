@@ -65,8 +65,8 @@ public class Friend_Main_FriendsList extends ListActivity {
     public void onListItemClick(ListView parent, View v, int position, long id )
     {
         Intent intent = new Intent(this, Friend_Profile.class);
-        String message = Integer.toString(position);
-        intent.putExtra("Slot", message);
+        String val=(String)(parent.getItemAtPosition(position));
+        intent.putExtra("Name", val);
         startActivity(intent);
     }
 

@@ -58,9 +58,9 @@
             android:value="AIzaSyApG0I2tcDcpxNwppR0Znl0ogb2SvCTqA4" />
 
         <!-- test for Rafid -->
-        <!--<meta-data-->
-            <!--android:name="com.google.android.maps.v2.API_KEY"-->
-            <!--android:value="AIzaSyChzmGrnZJFtqO3pcrMA7x4Tt54AdOAoTw" />-->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.android.maps.v2.API_KEY" -->
+        <!-- android:value="AIzaSyChzmGrnZJFtqO3pcrMA7x4Tt54AdOAoTw" /> -->
 
         <activity
             android:name="com.example.arnold.partyfi.CreatePartyActivity"
@@ -77,12 +77,20 @@
             android:label="@string/title_activity_friend__main__search2" >
         </activity>
         <activity
+            android:name="com.example.arnold.partyfi.Friend_Main_Search1"
+            android:label="@string/title_activity_friend__main__search1" >
+        </activity>
+        <activity
             android:name="com.example.arnold.partyfi.Friend_Profile"
             android:label="@string/title_activity_friend__profile" >
         </activity>
         <activity
             android:name="com.example.arnold.partyfi.Friend_Main_FriendsList"
             android:label="@string/title_activity_friend__main__friends_list" >
+        </activity>
+        <activity
+            android:name="com.example.arnold.partyfi.Login"
+            android:label="@string/title_activity_login" >
         </activity>
     </application>
 
