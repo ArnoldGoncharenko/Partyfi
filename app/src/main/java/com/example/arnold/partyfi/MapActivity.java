@@ -99,6 +99,10 @@ public class MapActivity extends FragmentActivity {
         if (c.moveToFirst())
         {
             do {
+//                String temp = new String ("Description : " + c.getString(3) + "\n" +
+//                                          "Address : " + c.getString(5) + "\n" +
+//                                          "Time of Party : " + c.getString(7) + "\n" +
+//                                          "Date of Party : " + c.getString(6));
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(c.getDouble(1), c.getDouble(2)))
                         .title(c.getString(4))

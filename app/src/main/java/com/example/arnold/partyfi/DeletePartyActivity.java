@@ -2,8 +2,10 @@ package com.example.arnold.partyfi;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Looper;
@@ -40,7 +42,7 @@ public class DeletePartyActivity extends ListActivity {
         Cursor c = db.getAllParties();
         displayCursor(c);
         TextView eText = (TextView) findViewById(R.id.parties);
-        eText.setText("Which party would you like to delete?");
+        eText.setText("Select party to delete");
 
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
@@ -64,27 +66,45 @@ public class DeletePartyActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, final long id) {
-                final String item = (String) parent.getItemAtPosition(position);
 
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                db.open();
-                                try {
-                                    int myNum = Integer.parseInt(item);
-                                    db.deleteParty(myNum);
-                                    adapter.notifyDataSetChanged();
-                                    view.setAlpha(1);
-                                } catch(NumberFormatException nfe) {
-                                    System.out.println("Could not parse " + nfe);
-                                }finally {
-                                    db.close();
-                                    finish();
-                                    startActivity(getIntent());
-                                }
+                final String item = (String) parent.getItemAtPosition(position);
+                new AlertDialog.Builder(view.getContext())
+                        .setTitle("Delete party")
+                        .setMessage("Are you sure you want to delete this entry?" )
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                view.animate().setDuration(2000).alpha(0)
+                                        .withEndAction(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                db.open();
+                                                try {
+                                                    int myNum = Integer.parseInt(item);
+                                                    db.deleteParty(myNum);
+                                                    adapter.notifyDataSetChanged();
+                                                    view.setAlpha(1);
+                                                } catch(NumberFormatException nfe) {
+                                                    System.out.println("Could not parse " + nfe);
+                                                }finally {
+                                                    db.close();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
+                                            }
+                                        });
                             }
-                        });
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
             }
         });
 
@@ -125,14 +145,14 @@ public class DeletePartyActivity extends ListActivity {
     }
     private void displayParty( Cursor c )
     {
-        Toast.makeText(this, "Party has been removed",
+//        Toast.makeText(this, "Party has been removed",
 //                "id: " + c.getString(0) + "\n" +
 //                        "Title: " + c.getString(4) + "\n" +
 //                        "Address:  " + c.getString(5) + "\n" +
 //                        "Desc: " + c.getString(3) + "\n" +
 //                        "Other 1: "+ c.getString(6) + "\n" +
 //                        "Other 2 : " + c.getString(7),
-                Toast.LENGTH_LONG).show();
+//                Toast.LENGTH_LONG).show();
     }
     protected void onStart() {//activity is started and visible to the user
         Log.d(logtag,"onStart() called");

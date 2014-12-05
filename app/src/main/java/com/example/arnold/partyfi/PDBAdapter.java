@@ -20,7 +20,7 @@ public class PDBAdapter
     private static final String LOG = "DatabaseHelp";
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     // Database Name
     private static final String DATABASE_NAME = "partyManager";
@@ -52,7 +52,7 @@ public class PDBAdapter
     static final String CREATE_TABLE_PARTY = "CREATE TABLE "
             + TABLE_PARTY + "( _id integer primary key autoincrement," + KEY_LAT
             + " DOUBLE," + KEY_LNG + " DOUBLE," + KEY_TITLE
-            + " TEXT," + KEY_DESC + " TEXT," + KEY_ADDR + " TEXT"
+            + " TEXT," + KEY_DESC + " TEXT," + KEY_ADDR + " TEXT,"
             + KEY_DATE + " TEXT," + KEY_TIME + " TEXT);";
 
     // Account table create statement
@@ -102,6 +102,9 @@ public class PDBAdapter
         values.put(KEY_TITLE, party.title);
         values.put(KEY_DESC, party.description);
         values.put(KEY_ADDR, party.address);
+        values.put(KEY_DATE, party.date);
+        values.put(KEY_TIME, party.time);
+
 
         long party_id = db.insert(TABLE_PARTY, null, values);
 
@@ -133,6 +136,10 @@ public class PDBAdapter
         p.setId(c.getInt(c.getColumnIndex(KEY_ID)));
         p.setDescription(c.getString(c.getColumnIndex(KEY_DESC)));
         p.setLat(c.getDouble(c.getColumnIndex(KEY_LAT)));
+        p.setLng(c.getDouble(c.getColumnIndex(KEY_LNG)));
+        p.setAddress(c.getString(c.getColumnIndex(KEY_ADDR)));
+        p.setDate(c.getString(c.getColumnIndex(KEY_DATE)));
+        p.setTime(c.getString(c.getColumnIndex(KEY_TIME)));
         p.setDescription(c.getString(c.getColumnIndex(KEY_DESC)));
 
         return p;
