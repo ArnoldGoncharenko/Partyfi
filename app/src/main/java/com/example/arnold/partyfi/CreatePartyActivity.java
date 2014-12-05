@@ -172,11 +172,11 @@ public class CreatePartyActivity extends FragmentActivity {
         private void displayParty( Cursor c )
         {
             Looper.prepare();
-            Toast.makeText( getActivity(),
-                    "id: " + c.getString(0) + "\n" +
-                            "Lat: " + c.getString(1) + "\n" +
-                            "Long:  " + c.getString(2) + "\n" +
-                            "Desc: " + c.getString(3),
+            Toast.makeText( getActivity(), "Party Added Successfully",
+//                    "id: " + c.getString(0) + "\n" +
+//                            "Lat: " + c.getString(1) + "\n" +
+//                            "Long:  " + c.getString(2) + "\n" +
+//                            "Desc: " + c.getString(3),
                     Toast.LENGTH_LONG).show();
             Looper.loop();
         }

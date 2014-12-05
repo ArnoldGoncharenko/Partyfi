@@ -125,7 +125,7 @@ public class DeletePartyActivity extends ListActivity {
     }
     private void displayParty( Cursor c )
     {
-        Toast.makeText(this, "Party has been added",
+        Toast.makeText(this, "Party has been removed",
 //                "id: " + c.getString(0) + "\n" +
 //                        "Title: " + c.getString(4) + "\n" +
 //                        "Address:  " + c.getString(5) + "\n" +
