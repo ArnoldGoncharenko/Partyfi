@@ -40,7 +40,7 @@ public class DeletePartyActivity extends ListActivity {
         Cursor c = db.getAllParties();
         displayCursor(c);
         TextView eText = (TextView) findViewById(R.id.parties);
-        eText.setText("Would you like to get rid of a party?");
+        eText.setText("Which party would you like to delete?");
 
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
