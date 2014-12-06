@@ -1,8 +1,13 @@
 package com.example.arnold.partyfi;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.DialogFragment;
@@ -27,7 +32,6 @@ import java.util.Locale;
 
 
 public class CreatePartyActivity extends FragmentActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,9 @@ public class CreatePartyActivity extends FragmentActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         private Button button;
-        private String result;
+
+        PDBAdapter db;
+
         public PlaceholderFragment() {
         }
 
@@ -83,52 +89,115 @@ public class CreatePartyActivity extends FragmentActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_create_party, container, false);
+            final View rootView = inflater.inflate(R.layout.fragment_create_party, container, false);
             button = (Button) rootView.findViewById(R.id.btn_find);
+
 
             button.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(final View view) {
 
-
-                    result = ((EditText) getActivity().findViewById(R.id.et_location)).getText().toString();
-                    Thread thr = new Thread()
-                    {
-                      public void run()
-                      {
-                          Geocoder geocoder = new Geocoder( view.getContext(), Locale.getDefault());
-                          if(!Geocoder.isPresent())
-                          {
-                              Toast.makeText(view.getContext(), "Geocoder Not Present!", Toast.LENGTH_LONG).show();
-                          }
-                          try
-                          {
-                              List<Address> list = geocoder.getFromLocationName(result, 1);
-                              Address address = list.get(0);
-
-                              double lat = address.getLatitude();
-                              double lng = address.getLongitude();
-
-                              String geodata = String.valueOf(lat) + "," + String.valueOf(lng);
-                              Looper.prepare();
-                              Toast.makeText(getActivity(), geodata, Toast.LENGTH_LONG).show();
-                              Looper.loop();
-                          }catch (IOException e)
-                          {
-                              Log.e("IOException", e.getMessage());
-                          }
+                    final String date = ((EditText) getActivity().findViewById(R.id.datePick)).getText().toString();
+                    final String time = ((EditText) getActivity().findViewById(R.id.timePick)).getText().toString();
+                    final String result = ((EditText) getActivity().findViewById(R.id.et_location)).getText().toString();
+                    final String titleInput  = ((EditText) getActivity().findViewById(R.id.titleText)).getText().toString();
+                    final String descInput = ((EditText) getActivity().findViewById(R.id.descText)).getText().toString();
+                    //Thread thr = new Thread()
+                    //{
+                      //public void run()
+                      //{
 
 
 
-                      }
-                    };
-                    thr.start();
+                          new AlertDialog.Builder(view.getContext())
+                                  .setTitle("Add entry")
+                                  .setMessage("Are you sure you want to add this entry?")
+                                  .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                      public void onClick(DialogInterface dialog, int which) {
+                                          db = new PDBAdapter(view.getContext());
+                                          Geocoder geocoder = new Geocoder( view.getContext(), Locale.getDefault());
+                                          if(!Geocoder.isPresent())
+                                          {
+                                              Toast.makeText(view.getContext(), "Geocoder Not Present!", Toast.LENGTH_LONG).show();
+                                          }
+                                          try
+                                          {
+                                          List<Address> list = geocoder.getFromLocationName(result, 1);
+                                          Address address = list.get(0);
+
+                                          double lat = address.getLatitude();
+                                          double lng = address.getLongitude();
+
+                                          String geodata = String.valueOf(lat) + "," + String.valueOf(lng);
+
+
+                                          //Add Data to database
+                                          db.open();
+                                          long id;
+                                          Party p = new Party();
+                                          p.setDescription(descInput);
+                                          p.setTitle(titleInput);
+                                          p.setLat(lat);
+                                          p.setLng(lng);
+                                          p.setAddress(result);
+                                          p.setDate(date);
+                                          p.setTime(time);
+
+                                          id = db.createParty(p);
+                                          db.close();
+
+                                          //Query Test
+                                          db.open();
+
+                                          Cursor c = db.getAllParties();
+                                          Log.i("DataAccessActivity", "id = " + id);
+                                          displayCursor(c);
+                                          db.close();
+
+                                      }catch (IOException e)
+                                      {
+                                          Log.e("IOException", e.getMessage());
+                                      }
+                                      }
+                                  })
+                                  .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                      public void onClick(DialogInterface dialog, int which) {
+                                          // do nothing
+                                      }
+                                  })
+                                  .setIcon(android.R.drawable.ic_dialog_alert)
+                                  .show();
+
+                     // }
+                    //};
+                    //thr.start();
+
                 }
             }
             );
 
             return rootView;
+        }
+        private void displayCursor( Cursor c ){
+
+            if (c.moveToFirst())
+            {
+                do {
+                    displayParty(c);
+                } while (c.moveToNext());
+            }
+        }
+        private void displayParty( Cursor c )
+        {
+//            Looper.prepare();
+//            Toast.makeText( getActivity(), "Party Added Successfully",
+//                    "id: " + c.getString(0) + "\n" +
+//                            "Lat: " + c.getString(1) + "\n" +
+//                            "Long:  " + c.getString(2) + "\n" +
+//                            "Desc: " + c.getString(3),
+//                    Toast.LENGTH_LONG).show();
+//            Looper.loop();
         }
 
     }

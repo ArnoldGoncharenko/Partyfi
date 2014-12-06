@@ -3,6 +3,7 @@ package com.example.arnold.partyfi;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -33,13 +34,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // use the (user-defined) helper class to access an SQLite database
         // - the database is created for access
         DBAdapter db = new DBAdapter(this);
+        PDBAdapter accountDB = new PDBAdapter(this);
 
         //--- 1. add two contacts to the database ---
         db.open();
+        accountDB.open();
 
-        long id;
-        id = db.insertContact( "Arnold", "19", "True" );
-        id = db.insertContact( "James", "28", "True" );
+        Cursor contactNum = db.getNumOfData();
+
+        if (contactNum.getInt(0) == 0)
+        {
+            db.insertContact( "Arnold", "19", "True" );
+            db.insertContact( "James", "28", "True" );
+            db.insertContact( "Rafid","20","False" );
+        }
+
+        Cursor nameTest = accountDB.getNumOfData();
+
+        if (nameTest.getInt(0) == 0)
+        {
+            accountDB.createAccount("arnold","arnold");
+            accountDB.createAccount("james","james");
+            accountDB.createAccount("rafid","rafid");
+        }
 
         db.close();
 
@@ -83,8 +100,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             //.setText(mAppSectionsPagerAdapter.getPageTitle(i))
                            // .setTabListener(this));
         //}
-
-        actionBar.addTab(actionBar.newTab().setText("Groups").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Friends").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Parties").setTabListener(this));
     }
@@ -138,11 +153,37 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.Settings:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        Intent intent = getIntent();
+
+        String login = "";
+
+        login = intent.getStringExtra("login");
+
+        if (login == null)
+            login = "false";
+
+        if (login.equals("true"))
+        {
+            switch (item.getItemId())
+            {
+                case R.id.action_settings:
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
+
+        else
+        {
+            switch (item.getItemId())
+            {
+                case R.id.action_settings:
+                    return true;
+                case R.id.login:
+                    goToLogin();
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
         }
     }
 
@@ -158,20 +199,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             switch (i)
             {
                 case 0:
-                    // The first section of the app is the most interesting -- it offers
-                    // a launchpad into the other demonstrations in this example application.
-                    Fragment fragmentGroups = new DummySectionFragment();
-                    Bundle argsGroups = new Bundle();
-                    argsGroups.putString("test", "test");
-                    fragmentGroups.setArguments(argsGroups);
-                    return new LaunchpadGroupsFragment();
-                case 1:
                     Fragment fragmentFriends = new DummySectionFragment();
                     Bundle argsFriends = new Bundle();
                     argsFriends.putString("test", "test");
                     fragmentFriends.setArguments(argsFriends);
                     return new LaunchpadFriendsFragment();
-                case 2:
+                case 1:
                     Fragment fragmentParties = new DummySectionFragment();
                     Bundle argsParties = new Bundle();
                     argsParties.putString("test", "test");
@@ -184,18 +217,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     args.putString("test", "test");
                     fragment.setArguments(args);
                     return fragment;
-            }
-        }
-
-        public static class LaunchpadGroupsFragment extends Fragment
-        {
-
-            @Override
-            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-            {
-                View rootView = inflater.inflate(R.layout.main_group_options, container, false);
-
-                return rootView;
             }
         }
 
@@ -259,4 +280,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Intent intent = new Intent(this, Friend_Main_FriendsList.class);
         startActivity(intent);
     }
+
+    public void goToLogin()
+    {
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
+    public void FriendsSearch(View view)
+    {
+        Intent intent = new Intent(this, Friend_Main_Search1.class);
+        startActivity(intent);
+    }
+
 }

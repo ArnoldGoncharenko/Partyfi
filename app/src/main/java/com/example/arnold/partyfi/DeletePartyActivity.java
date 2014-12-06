@@ -2,29 +2,113 @@ package com.example.arnold.partyfi;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class DeletePartyActivity extends Activity {
+public class DeletePartyActivity extends ListActivity {
+
+    private static String logtag = "DeletePartyActity";//for use as the tag when logging
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_party);
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
-    }
 
+        final PDBAdapter db = new PDBAdapter(this);
+        List<String> parts = new ArrayList<String>();
+        db.open();
+
+        Cursor c = db.getAllParties();
+        displayCursor(c);
+        TextView eText = (TextView) findViewById(R.id.parties);
+        eText.setText("Select party to delete");
+
+
+        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+            // The Cursor is now set to the right position
+            parts.add(c.getString(0));
+        }
+
+        ListView lView = getListView();
+
+        lView.setChoiceMode(ListView.CHOICE_MODE_SINGLE); // one choice
+
+        lView.setTextFilterEnabled(true); // filter the children according to user input
+        final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_list, parts);
+        //setListAdapter(new ArrayAdapter<String>(this, R.layout.item_list, parts));
+        lView.setAdapter(adapter);
+
+        db.close();
+
+        lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, final long id) {
+
+                final String item = (String) parent.getItemAtPosition(position);
+                new AlertDialog.Builder(view.getContext())
+                        .setTitle("Delete party")
+                        .setMessage("Are you sure you want to delete this entry?" )
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                view.animate().setDuration(2000).alpha(0)
+                                        .withEndAction(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                db.open();
+                                                try {
+                                                    int myNum = Integer.parseInt(item);
+                                                    db.deleteParty(myNum);
+                                                    adapter.notifyDataSetChanged();
+                                                    view.setAlpha(1);
+                                                } catch(NumberFormatException nfe) {
+                                                    System.out.println("Could not parse " + nfe);
+                                                }finally {
+                                                    db.close();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
+                                            }
+                                        });
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+            }
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,6 +116,7 @@ public class DeletePartyActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_delete_party, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -48,19 +133,52 @@ public class DeletePartyActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
 
-        public PlaceholderFragment() {
-        }
+    private void displayCursor( Cursor c ){
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_delete_party, container, false);
-            return rootView;
+        if (c.moveToFirst())
+        {
+            do {
+                displayParty(c);
+            } while (c.moveToNext());
         }
+    }
+    private void displayParty( Cursor c )
+    {
+        Toast.makeText(this,
+                "id: " + c.getString(0) + "\n" +
+                        "Title: " + c.getString(4) + "\n" +
+                        "Address:  " + c.getString(5) + "\n" +
+                        "Desc: " + c.getString(3) + "\n" +
+                        "Other 1: "+ c.getString(6) + "\n" +
+                        "Other 2 : " + c.getString(7),
+                Toast.LENGTH_LONG).show();
+    }
+    protected void onStart() {//activity is started and visible to the user
+        Log.d(logtag,"onStart() called");
+        super.onStart();
+    }
+    @Override
+    protected void onResume() {//activity was resumed and is visible again
+        Log.d(logtag,"onResume() called");
+        super.onResume();
+
+    }
+    @Override
+    protected void onPause() { //device goes to sleep or another activity appears
+        Log.d(logtag,"onPause() called");//another activity is currently running (or user has pressed Home)
+        super.onPause();
+
+    }
+    @Override
+    protected void onStop() { //the activity is not visible anymore
+        Log.d(logtag,"onStop() called");
+        super.onStop();
+
+    }
+    @Override
+    protected void onDestroy() {//android has killed this activity
+        Log.d(logtag,"onDestroy() called");
+        super.onDestroy();
     }
 }

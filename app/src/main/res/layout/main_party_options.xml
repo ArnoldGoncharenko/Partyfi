@@ -3,31 +3,26 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Main menu for parties"
-        android:id="@+id/textView"
-        android:layout_gravity="center"
-        android:layout_marginBottom="100dp"
-        android:textSize="50sp"/>
     <Button
         android:id="@+id/findParty"
-        android:layout_width="fill_parent"
+        android:layout_width="139dp"
         android:layout_height="wrap_content"
         android:text="Find Party"
-        android:onClick="getMap"/>
+        android:onClick="getMap"
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center_horizontal" />
     <Button
         android:id="@+id/createParty"
-        android:layout_width="fill_parent"
+        android:layout_width="139dp"
         android:layout_height="wrap_content"
         android:text="Create Party"
-        android:onClick="createParty"/>
+        android:onClick="createParty"
+        android:layout_gravity="center_horizontal" />
     <Button
         android:id="@+id/deleteParty"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remove Party"
-        android:onClick="deleteParty"/>
+        android:onClick="deleteParty"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
