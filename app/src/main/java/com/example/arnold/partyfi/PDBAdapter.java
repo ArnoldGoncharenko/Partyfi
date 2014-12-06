@@ -148,7 +148,7 @@ public class PDBAdapter
     public Cursor getAllParties()
     {
         return db.query(TABLE_PARTY,
-                new String[]{KEY_ID, KEY_LAT, KEY_LNG, KEY_DESC, KEY_TITLE},
+                new String[]{KEY_ID, KEY_LAT, KEY_LNG, KEY_DESC, KEY_TITLE, KEY_ADDR, KEY_DATE, KEY_TIME},
                 null, null, null, null, null);
     }
 

@@ -145,14 +145,14 @@ public class DeletePartyActivity extends ListActivity {
     }
     private void displayParty( Cursor c )
     {
-//        Toast.makeText(this, "Party has been removed",
-//                "id: " + c.getString(0) + "\n" +
-//                        "Title: " + c.getString(4) + "\n" +
-//                        "Address:  " + c.getString(5) + "\n" +
-//                        "Desc: " + c.getString(3) + "\n" +
-//                        "Other 1: "+ c.getString(6) + "\n" +
-//                        "Other 2 : " + c.getString(7),
-//                Toast.LENGTH_LONG).show();
+        Toast.makeText(this,
+                "id: " + c.getString(0) + "\n" +
+                        "Title: " + c.getString(4) + "\n" +
+                        "Address:  " + c.getString(5) + "\n" +
+                        "Desc: " + c.getString(3) + "\n" +
+                        "Other 1: "+ c.getString(6) + "\n" +
+                        "Other 2 : " + c.getString(7),
+                Toast.LENGTH_LONG).show();
     }
     protected void onStart() {//activity is started and visible to the user
         Log.d(logtag,"onStart() called");
